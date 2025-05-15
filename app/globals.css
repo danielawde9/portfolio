@@ -153,7 +153,8 @@ progress::-moz-progress-bar {
 
 .project-card-hover:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 10px 10px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Link hover animation */
@@ -174,4 +175,11 @@ progress::-moz-progress-bar {
 
 .link-hover-effect:hover::after {
   width: 100%;
+}
+
+/* For animated name in resume.tsx */
+.invisible-char {
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
 }

@@ -103,6 +103,7 @@ export default function ExperienceSection({
   // Create timeline data format
   const timelineData = experiences.map((exp) => ({
     title: exp.period,
+    periodColor: exp.color,
     content: (
       <div
         key={exp.id}

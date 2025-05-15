@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
@@ -44,10 +45,10 @@ export default function ProjectFilter({
         <button
           key={category}
           onClick={() => onCategoryChange(category)}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+          className={`filter-button px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
             activeCategory === category
-              ? "bg-gradient-to-r from-[#FF3366] via-[#FFCC33] to-[#33CCFF] text-black"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+              ? "bg-lime-400 text-black shadow-lg"
+              : "bg-black/40 text-gray-300 border border-gray-700 hover:bg-gray-800/60"
           }`}
         >
           {category}

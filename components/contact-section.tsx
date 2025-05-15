@@ -2,10 +2,16 @@
 
 import type React from "react";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Mail } from "lucide-react";
 import { fadeIn, fadeInUp } from "@/utils/animations";
+
+// Register ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ContactSectionProps {
   forwardedRef: React.RefObject<HTMLElement | null>;
@@ -15,24 +21,69 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const contactInfoRef = useRef<HTMLDivElement>(null);
+  const contactItemsRef = useRef<HTMLDivElement[]>([]);
+  const linkRefs = useRef<HTMLAnchorElement[]>([]);
+
+  // Add magnetic effect to links
+  useEffect(() => {
+    linkRefs.current.forEach((link) => {
+      if (!link) return;
+
+      const magnetStrength = 0.3;
+
+      link.addEventListener("mousemove", (e) => {
+        const bounds = link.getBoundingClientRect();
+        const mouseX = e.clientX - bounds.left - bounds.width / 2;
+        const mouseY = e.clientY - bounds.top - bounds.height / 2;
+
+        gsap.to(link, {
+          x: mouseX * magnetStrength,
+          y: mouseY * magnetStrength,
+          duration: 0.2,
+          ease: "power2.out",
+        });
+      });
+
+      link.addEventListener("mouseleave", () => {
+        gsap.to(link, {
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          ease: "elastic.out(1, 0.3)",
+        });
+      });
+    });
+  }, []);
 
   useEffect(() => {
-    // Heading animation
+    // Heading animation with text reveal
     if (headingRef.current) {
-      gsap.fromTo(
-        headingRef.current,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: "top 80%",
-          },
-        }
-      );
+      const heading = headingRef.current;
+      const text = heading.textContent || "";
+      heading.innerHTML = "";
+
+      // Create spans for each letter
+      text.split("").forEach((char, i) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        span.style.display = "inline-block";
+        span.style.opacity = "0";
+        span.style.transform = "translateY(20px)";
+        heading.appendChild(span);
+      });
+
+      // Animate letters
+      gsap.to(heading.children, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.03,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: heading,
+          start: "top 80%",
+        },
+      });
     }
 
     // Description animation
@@ -53,14 +104,14 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
       );
     }
 
-    // Contact info animation
+    // Contact info container animation
     if (contactInfoRef.current) {
       gsap.fromTo(
         contactInfoRef.current,
-        { opacity: 0, y: 50 },
+        { opacity: 0, scale: 0.95 },
         {
           opacity: 1,
-          y: 0,
+          scale: 1,
           duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
@@ -69,15 +120,45 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
           },
         }
       );
+
+      // Staggered animation for contact items
+      gsap.fromTo(
+        contactItemsRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: contactInfoRef.current,
+            start: "top 75%",
+          },
+        }
+      );
     }
   }, []);
 
+  // Handler to add contact items to refs array
+  const addToContactItemsRef = (el: HTMLDivElement) => {
+    if (el && !contactItemsRef.current.includes(el)) {
+      contactItemsRef.current.push(el);
+    }
+  };
+
+  // Handler to add links to refs array
+  const addToLinkRefs = (el: HTMLAnchorElement) => {
+    if (el && !linkRefs.current.includes(el)) {
+      linkRefs.current.push(el);
+    }
+  };
+
   return (
-    <section ref={forwardedRef} className="py-20 relative">
+    <section ref={forwardedRef} className="pb-10 relative">
       <div className="container mx-auto px-4 flex flex-col items-center z-10 relative">
         <div className="mb-12 text-center">
           <h2
-            ref={headingRef}
             className="text-4xl md:text-5xl font-extrabold mb-4 inline-block border-b-4 border-lime-400 pb-2 text-white tracking-tight"
             style={{ fontFamily: "monospace" }}
           >
@@ -98,15 +179,19 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
           style={{ borderWidth: 2 }}
         >
           {/* Email */}
-          <div className="flex items-center gap-4">
-            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0">
+          <div
+            ref={addToContactItemsRef}
+            className="flex items-center gap-4 contact-item transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg p-3 rounded-xl hover:bg-gray-800/40"
+          >
+            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0 transform transition-all duration-300 group-hover:scale-110">
               <Mail className="w-6 h-6 text-lime-400" />
             </span>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-white text-base mb-1">Email</p>
               <a
+                ref={addToLinkRefs}
                 href="mailto:hello@danielawde9.com"
-                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-all"
+                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-all inline-block"
               >
                 hello@danielawde9.com
               </a>
@@ -114,8 +199,11 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
           </div>
 
           {/* Phone */}
-          <div className="flex items-center gap-4">
-            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0">
+          <div
+            ref={addToContactItemsRef}
+            className="flex items-center gap-4 contact-item transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg p-3 rounded-xl hover:bg-gray-800/40"
+          >
+            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0 transform transition-all duration-300 group-hover:scale-110">
               {/* Phone icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -135,8 +223,9 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-white text-base mb-1">Phone</p>
               <a
+                ref={addToLinkRefs}
                 href="tel:+96170979482"
-                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono"
+                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono inline-block"
               >
                 +961 70 979 482
               </a>
@@ -144,8 +233,11 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
           </div>
 
           {/* Location */}
-          <div className="flex items-center gap-4">
-            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0">
+          <div
+            ref={addToContactItemsRef}
+            className="flex items-center gap-4 contact-item transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg p-3 rounded-xl hover:bg-gray-800/40"
+          >
+            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0 transform transition-all duration-300 group-hover:scale-110">
               {/* Location icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -174,8 +266,11 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
           </div>
 
           {/* LinkedIn */}
-          <div className="flex items-center gap-4">
-            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0">
+          <div
+            ref={addToContactItemsRef}
+            className="flex items-center gap-4 contact-item transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg p-3 rounded-xl hover:bg-gray-800/40"
+          >
+            <span className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center flex-shrink-0 transform transition-all duration-300 group-hover:scale-110">
               {/* LinkedIn icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -199,10 +294,11 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
                 LinkedIn
               </p>
               <a
+                ref={addToLinkRefs}
                 href="https://linkedin.com/in/danielawde9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-all"
+                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-all inline-block"
               >
                 linkedin.com/in/danielawde9
               </a>
