@@ -12,10 +12,11 @@ import ContactSection from "@/components/contact-section"
 import Footer from "@/components/footer"
 import { gsap } from "gsap"
 import { ScrollToPlugin } from "gsap/ScrollToPlugin"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-// Register ScrollToPlugin
+// Register GSAP plugins
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollToPlugin)
+  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger)
 }
 
 export default function Home() {
@@ -44,10 +45,34 @@ export default function Home() {
   useEffect(() => {
     // Initial page load animation
     gsap.fromTo("body", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.inOut" })
+
+    // Create a scroll progress indicator
+    gsap.to("progress", {
+      value: 100,
+      ease: "none",
+      scrollTrigger: {
+        scrub: 0.3,
+      },
+    })
   }, [])
 
   return (
     <main className="bg-black text-white">
+      {/* Scroll progress indicator */}
+      <progress
+        className="fixed top-0 left-0 right-0 h-1 z-50 appearance-none bg-transparent pointer-events-none"
+        max="100"
+        value="0"
+        style={
+          {
+            // Custom styling for the progress bar
+            "--color": "#33CCFF",
+            "--background": "transparent",
+            "--border-radius": "0px",
+          } as React.CSSProperties
+        }
+      />
+
       <Navigation
         onScrollToSection={scrollToSection}
         aboutRef={aboutRef}

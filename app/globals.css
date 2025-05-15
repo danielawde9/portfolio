@@ -88,3 +88,90 @@ html {
     print-color-adjust: exact !important;
   }
 }
+
+/* Progress bar styling */
+progress {
+  color: var(--color, #33ccff);
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--background, transparent);
+  border-radius: var(--border-radius, 0);
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--color, #33ccff);
+  border-radius: var(--border-radius, 0);
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--color, #33ccff);
+  border-radius: var(--border-radius, 0);
+}
+
+/* Skill tag hover effect */
+.skill-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(51, 204, 255, 0.3);
+}
+
+/* Animated gradient text */
+@keyframes gradient-text {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background-size: 200% auto;
+  animation: gradient-text 4s ease infinite;
+}
+
+/* 3D card effect */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Gradient text animation */
+.gradient-text-animate {
+  background-size: 200% auto;
+  animation: gradient-text 4s ease infinite;
+}
+
+/* Project card hover effect */
+.project-card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Link hover animation */
+.link-hover-effect {
+  position: relative;
+}
+
+.link-hover-effect::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.link-hover-effect:hover::after {
+  width: 100%;
+}
