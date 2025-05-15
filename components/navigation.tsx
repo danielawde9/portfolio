@@ -8,6 +8,7 @@ import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useTheme } from "next-themes";
 import { Sun, Moon, Menu, X } from "lucide-react";
+import { Button } from "./ui/button";
 
 // Register ScrollToPlugin
 if (typeof window !== "undefined") {
@@ -102,7 +103,7 @@ export default function Navigation({
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex space-x-8 md:items-center">
           <button
             onClick={() => handleClick(projectsRef)}
             className="text-gray-300 hover:text-lime-400 transition-colors"
@@ -123,16 +124,18 @@ export default function Navigation({
           </button>
           <button
             onClick={() => handleClick(contactRef)}
-            className="text-gray-300 hover:text-lime-400 transition-colors"
+            className="text-gray-300 hover:text-lime-400 transition-colors "
           >
             Contact
           </button>
-          <Link
-            href="/resume"
-            className="text-gray-300 hover:text-lime-400 transition-colors"
+
+          <a
+            href="mailto:hello@danielawd9.com"
+            className="ml-2 px-4 py-2 rounded bg-lime-400 text-black font-semibold shadow hover:bg-lime-500 transition-colors focus:outline-none focus:ring-2 focus:ring-lime-300"
+            style={{ marginLeft: "0.5rem" }}
           >
-            Resume
-          </Link>
+            Contact
+          </a>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -172,13 +175,13 @@ export default function Navigation({
             >
               Contact
             </button>
-            <Link
-              href="/resume"
-              className="text-white py-2 px-4 block hover:text-lime-400 transition-colors"
+            <a
+              href="mailto:hello@danielawd9.com"
+              className="py-2 px-4 block rounded bg-lime-400 text-black font-semibold shadow hover:bg-lime-500 transition-colors focus:outline-none focus:ring-2 focus:ring-lime-300"
               onClick={() => setIsOpen(false)}
             >
-              Resume
-            </Link>
+              Contact
+            </a>
           </div>
         </div>
       )}
