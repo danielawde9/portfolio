@@ -122,12 +122,6 @@ export default function Navigation({
           >
             Experience
           </button>
-          <button
-            onClick={() => handleClick(contactRef)}
-            className="text-gray-300 hover:text-lime-400 transition-colors "
-          >
-            Contact
-          </button>
 
           <a
             href="mailto:hello@danielawd9.com"
