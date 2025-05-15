@@ -223,7 +223,7 @@ export default function ExperienceSection({
   }, []);
 
   return (
-    <section ref={forwardedRef} className="py-20 relative overflow-hidden">
+    <section ref={forwardedRef} className="py-20 relative">
       <div className="container mx-auto px-4 relative z-10">
         <div className="mb-16 text-center">
           <h2

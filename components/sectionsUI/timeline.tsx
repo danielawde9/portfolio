@@ -11,13 +11,45 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
+  const [stickyTitles, setStickyTitles] = useState<boolean[]>([]);
 
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
       setHeight(rect.height);
     }
-  }, [ref]);
+
+    // Initialize sticky state array
+    setStickyTitles(new Array(data.length).fill(false));
+
+    // Create intersection observers for each title
+    const observers = data.map((_, index) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setStickyTitles((prev) => {
+            const newState = [...prev];
+            newState[index] = !entry.isIntersecting;
+            return newState;
+          });
+        },
+        {
+          threshold: 1,
+          rootMargin: "-40px 0px 0px 0px", // Matches the top-40 class
+        }
+      );
+      return observer;
+    });
+
+    // Observe title elements
+    const titleElements = document.querySelectorAll(".timeline-title");
+    titleElements.forEach((element, index) => {
+      observers[index].observe(element);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, [data.length]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -42,7 +74,13 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
                 <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
               </div>
-              <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 dark:text-neutral-500 ">
+              <h3
+                className={`timeline-title hidden md:block text-xl md:pl-20 md:text-5xl font-bold transition-colors duration-300 ${
+                  stickyTitles[index]
+                    ? "text-white"
+                    : "text-neutral-500 dark:text-neutral-500"
+                }`}
+              >
                 {item.title}
               </h3>
             </div>
