@@ -1,27 +1,33 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useEffect, useRef, useState } from "react"
-import { gsap } from "gsap"
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 
 interface SkillCardProps {
-  icon: React.ReactNode
-  title: string
-  description: string
-  color: string
-  delay?: number
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  color: string;
+  delay?: number;
 }
 
-export default function SkillCard({ icon, title, description, color, delay = 0 }: SkillCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const iconRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const [isHovered, setIsHovered] = useState(false)
+export default function SkillCard({
+  icon,
+  title,
+  description,
+  color,
+  delay = 0,
+}: SkillCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Initial animation
   useEffect(() => {
-    if (!cardRef.current) return
+    if (!cardRef.current) return;
 
     gsap.fromTo(
       cardRef.current,
@@ -36,13 +42,13 @@ export default function SkillCard({ icon, title, description, color, delay = 0 }
           trigger: cardRef.current,
           start: "top 85%",
         },
-      },
-    )
-  }, [delay])
+      }
+    );
+  }, [delay]);
 
   // Hover animations
   useEffect(() => {
-    if (!cardRef.current || !iconRef.current || !contentRef.current) return
+    if (!cardRef.current || !iconRef.current || !contentRef.current) return;
 
     if (isHovered) {
       // Card hover animation
@@ -52,7 +58,7 @@ export default function SkillCard({ icon, title, description, color, delay = 0 }
         boxShadow: `0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1), 0 0 15px ${color}33`,
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
 
       // Icon animation
       gsap.to(iconRef.current, {
@@ -62,14 +68,14 @@ export default function SkillCard({ icon, title, description, color, delay = 0 }
         color: "#000",
         duration: 0.4,
         ease: "back.out(1.7)",
-      })
+      });
 
       // Content animation
       gsap.to(contentRef.current, {
         y: -5,
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
     } else {
       // Reset animations
       gsap.to(cardRef.current, {
@@ -78,7 +84,7 @@ export default function SkillCard({ icon, title, description, color, delay = 0 }
         boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
 
       gsap.to(iconRef.current, {
         y: 0,
@@ -87,15 +93,15 @@ export default function SkillCard({ icon, title, description, color, delay = 0 }
         color: color,
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
 
       gsap.to(contentRef.current, {
         y: 0,
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
     }
-  }, [isHovered, color])
+  }, [isHovered, color]);
 
   return (
     <div
@@ -113,9 +119,9 @@ export default function SkillCard({ icon, title, description, color, delay = 0 }
         {icon}
       </div>
       <div ref={contentRef}>
-        <h3 className="text-xl font-bold mb-3">{title}</h3>
-        <p className="text-gray-400">{description}</p>
+        <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
+        <p className="text-secondary dark:text-gray-400">{description}</p>
       </div>
     </div>
-  )
+  );
 }

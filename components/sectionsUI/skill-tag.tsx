@@ -1,24 +1,29 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { gsap } from "gsap"
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 
 interface SkillTagProps {
-  name: string
-  level?: number
-  color?: string
-  delay?: number
+  name: string;
+  level?: number;
+  color?: string;
+  delay?: number;
 }
 
-export default function SkillTag({ name, level = 85, color = "#33CCFF", delay = 0 }: SkillTagProps) {
-  const tagRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLDivElement>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [showLevel, setShowLevel] = useState(false)
+export default function SkillTag({
+  name,
+  level = 85,
+  color = "#33CCFF",
+  delay = 0,
+}: SkillTagProps) {
+  const tagRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [showLevel, setShowLevel] = useState(false);
 
   // Initial animation
   useEffect(() => {
-    if (!tagRef.current) return
+    if (!tagRef.current) return;
 
     gsap.fromTo(
       tagRef.current,
@@ -34,13 +39,13 @@ export default function SkillTag({ name, level = 85, color = "#33CCFF", delay = 
           trigger: tagRef.current,
           start: "top 90%",
         },
-      },
-    )
-  }, [delay])
+      }
+    );
+  }, [delay]);
 
   // Progress animation on hover
   useEffect(() => {
-    if (!progressRef.current) return
+    if (!progressRef.current) return;
 
     if (showLevel) {
       gsap.fromTo(
@@ -50,20 +55,20 @@ export default function SkillTag({ name, level = 85, color = "#33CCFF", delay = 
           width: `${level}%`,
           duration: 0.8,
           ease: "power3.out",
-        },
-      )
+        }
+      );
     } else {
       gsap.to(progressRef.current, {
         width: "0%",
         duration: 0.3,
         ease: "power3.in",
-      })
+      });
     }
-  }, [showLevel, level])
+  }, [showLevel, level]);
 
   // Hover animation
   useEffect(() => {
-    if (!tagRef.current) return
+    if (!tagRef.current) return;
 
     if (isHovered) {
       gsap.to(tagRef.current, {
@@ -72,11 +77,11 @@ export default function SkillTag({ name, level = 85, color = "#33CCFF", delay = 
         color: "#000",
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
 
       // Show level after a short delay
-      const timer = setTimeout(() => setShowLevel(true), 200)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => setShowLevel(true), 200);
+      return () => clearTimeout(timer);
     } else {
       gsap.to(tagRef.current, {
         scale: 1,
@@ -84,16 +89,16 @@ export default function SkillTag({ name, level = 85, color = "#33CCFF", delay = 
         color: "#fff",
         duration: 0.3,
         ease: "power2.out",
-      })
+      });
 
-      setShowLevel(false)
+      setShowLevel(false);
     }
-  }, [isHovered, color])
+  }, [isHovered, color]);
 
   return (
     <div
       ref={tagRef}
-      className="relative py-2 px-4 rounded-full bg-gray-800/70 backdrop-blur-sm text-sm font-medium cursor-pointer overflow-hidden"
+      className="relative py-2 px-4 rounded-full bg-gray-800/70 backdrop-blur-sm text-sm font-medium cursor-pointer overflow-hidden text-foreground"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -104,5 +109,5 @@ export default function SkillTag({ name, level = 85, color = "#33CCFF", delay = 
         style={{ backgroundColor: color, width: "0%" }}
       ></div>
     </div>
-  )
+  );
 }

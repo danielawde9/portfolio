@@ -1,7 +1,7 @@
 import type React from "react"
 import "@/app/globals.css"
 import { Space_Grotesk, Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/hooks/theme-provider"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
