@@ -16,9 +16,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { fadeIn, fadeInLeft, fadeInRight, bounce } from "@/utils/animations";
-import InteractiveProjectCard from "./sectionsUI/interactive-project-card";
-import ProjectFilter from "./sectionsUI/project-filter";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -54,6 +51,7 @@ export default function HeroSection({
   const skillsRef = useRef<HTMLDivElement>(null);
   const socialsRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const imageAnimRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -94,7 +92,7 @@ export default function HeroSection({
       categories: ["Mobile", "AR"],
       demoLink:
         "https://play.google.com/store/apps/details?id=com.danielawde9.echoesofhistory",
-      codeLink: "https://github.com/danielawde9",
+      codeLink: "#",
       color: "#FF9933",
     },
     {
@@ -111,89 +109,17 @@ export default function HeroSection({
     },
     {
       id: 4,
-      title: "E-commerce Platform",
-      description:
-        "Developed a full-featured e-commerce platform with product management, user authentication, payment processing, and order tracking functionality.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["React", "Node.js", "MongoDB", "Stripe"],
-      categories: ["Web"],
-      demoLink: "#",
-      codeLink: "#",
-      color: "#33CCFF",
-    },
-    {
-      id: 5,
       title: "Portfolio Website",
       description:
         "Modern, responsive portfolio website built with Next.js and Tailwind CSS, featuring smooth animations and interactive elements.",
       image: "/placeholder.svg?height=400&width=600",
       tags: ["Next.js", "Tailwind CSS", "GSAP", "TypeScript"],
       categories: ["Web"],
-      demoLink: "#",
-      codeLink: "#",
+      demoLink: "https://danielawde9.com",
+      codeLink: "https://github.com/danielawde9/portfolio",
       color: "#9966FF",
     },
-    {
-      id: 6,
-      title: "AR Navigation App",
-      description:
-        "Mobile application that uses augmented reality to provide real-time navigation guidance in indoor environments like shopping malls and museums.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["Unity", "ARKit", "ARCore", "C#"],
-      categories: ["Mobile", "AR"],
-      demoLink: "#",
-      codeLink: "#",
-      color: "#66CC99",
-    },
   ];
-
-  // Filter categories
-  const categories = ["All", "Web", "Mobile", "AR"];
-
-  // Filter projects based on active category
-  const filteredProjects =
-    activeCategory === "All"
-      ? projects
-      : projects.filter((project) =>
-          project.categories.includes(activeCategory)
-        );
-
-  // Handle category change
-  const handleCategoryChange = (category: string) => {
-    // First fade out the projects
-    if (projectsListRef.current) {
-      gsap.to(projectsListRef.current.children, {
-        opacity: 0,
-        y: 20,
-        stagger: 0.05,
-        duration: 0.3,
-        ease: "power2.in",
-        onComplete: () => {
-          // Change the category
-          setActiveCategory(category);
-
-          // Then fade in the new projects
-          setTimeout(() => {
-            if (projectsListRef.current) {
-              gsap.fromTo(
-                projectsListRef.current.children,
-                { opacity: 0, y: 20 },
-                {
-                  opacity: 1,
-                  y: 0,
-                  stagger: 0.05,
-                  duration: 0.5,
-                  ease: "power2.out",
-                }
-              );
-            }
-          }, 100);
-        },
-      });
-    } else {
-      setActiveCategory(category);
-    }
-  };
 
   useEffect(() => {
     // Text typing animation
@@ -308,401 +234,53 @@ export default function HeroSection({
       );
     }
 
-    // Skills animation with staggered effect and 3D rotation
-    const skills = skillsRef.current?.querySelectorAll(".skill-item");
-    if (skills) {
-      tl.fromTo(
-        skills,
-        {
-          opacity: 0,
-          x: -50,
-          rotationY: -90,
-          transformOrigin: "left center",
-        },
-        {
-          opacity: 1,
-          x: 0,
-          rotationY: 0,
-          stagger: 0.2,
-          duration: 0.8,
-          ease: "power3.out",
-        },
-        "-=0.5"
-      );
-    }
-
-    // CTA button animation with glow effect
-    if (ctaRef.current) {
-      tl.fromTo(
-        ctaRef.current,
-        {
-          opacity: 0,
-          y: 30,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-        },
-        "-=0.7"
-      );
-
-      const ctaButton = ctaRef.current?.querySelector("a button");
-      if (ctaButton) {
-        tl.fromTo(
-          ctaButton,
-          {
-            scale: 0.5,
-          },
-          {
-            scale: 1,
-            duration: 0.7,
-            ease: "elastic.out(1, 0.5)",
-          },
-          "-=0.5"
-        );
-
-        // Add pulsing glow effect
-        gsap.to(ctaButton, {
-          boxShadow: "0 0 20px rgba(163, 230, 53, 0.7)",
-          repeat: -1,
-          yoyo: true,
-          duration: 2,
-          ease: "sine.inOut",
-        });
-      }
-    }
-
-    // Social icons animation with 3D effect
-    const socialIcons = socialsRef.current?.querySelectorAll("a");
-    if (socialIcons) {
-      tl.fromTo(
-        socialIcons,
-        {
-          opacity: 0,
-          scale: 0,
-          rotation: -180,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotation: 0,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: "back.out(1.7)",
-        },
-        "-=0.5"
-      );
-    }
-
-    // 3D Image animation with floating effect
-    if (imageRef.current) {
-      tl.fromTo(
-        imageRef.current,
-        {
-          opacity: 0,
-          y: 100,
-          rotationY: 50,
-          scale: 0.8,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          rotationY: 0,
-          scale: 1,
-          duration: 1.2,
-          ease: "power3.out",
-        },
-        "-=1.2"
-      );
-
-      // Add continuous floating animation
-      gsap.to(imageRef.current, {
-        rotationZ: "-=2",
-        duration: 2.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
+    // Animate skill items in
+    if (skillsRef.current) {
+      const skillItems = skillsRef.current.querySelectorAll(".skill-item");
+      gsap.to(skillItems, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        duration: 0.8,
+        ease: "power3.out",
+        delay: 0.7,
       });
     }
 
-    // Bouncing arrow animation with trail effect
-    if (arrowRef.current) {
+    // Animate image container in
+    if (imageAnimRef.current) {
       gsap.fromTo(
-        arrowRef.current,
-        { y: -20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          delay: 2,
-          ease: "back.out",
-          onComplete: () => {
-            gsap.to(arrowRef.current, {
-              y: 15,
-              duration: 1.5,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
-          },
-        }
-      );
-    }
-
-    // Projects section animations with 3D perspective
-    if (headingRef.current) {
-      gsap.fromTo(
-        headingRef.current,
-        {
-          opacity: 0,
-          y: 50,
-          scale: 0.9,
-        },
+        imageAnimRef.current,
+        { opacity: 0, scale: 0.9, y: 40 },
         {
           opacity: 1,
-          y: 0,
           scale: 1,
-          duration: 0.8,
-          ease: "back.out",
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: "top 80%",
-          },
-        }
-      );
-    }
-
-    if (descriptionRef.current) {
-      gsap.fromTo(
-        descriptionRef.current,
-        {
-          opacity: 0,
-          y: 50,
-          rotationX: 50,
-          transformOrigin: "center top",
-        },
-        {
-          opacity: 1,
           y: 0,
-          rotationX: 0,
           duration: 1,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: descriptionRef.current,
-            start: "top 80%",
-          },
+          delay: 0.5,
         }
       );
     }
 
-    // Create a staggered entrance for project cards
-    if (projectsListRef.current) {
-      const cards = projectsListRef.current.children;
-      gsap.fromTo(
-        cards,
-        {
-          opacity: 0,
-          y: 100,
-          scale: 0.8,
-          rotationY: 25,
-          transformOrigin: "center center -50px",
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          rotationY: 0,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: projectsListRef.current,
-            start: "top 85%",
-          },
-        }
-      );
-
-      // Add hover animations for each card
-      Array.from(cards).forEach((card) => {
-        const cardElement = card as HTMLElement;
-        const cardContent = cardElement.querySelector(".card-content");
-        const cardImage = cardElement.querySelector(".card-image");
-        const cardTitle = cardElement.querySelector(".card-title");
-        const cardTags = cardElement.querySelector(".card-tags");
-        const cardButtons = cardElement.querySelector(".card-buttons");
-
-        cardElement.addEventListener("mouseenter", () => {
-          gsap.to(cardElement, {
-            y: -15,
-            scale: 1.03,
-            boxShadow: "0 20px 30px rgba(0,0,0,0.2)",
-            duration: 0.3,
-            ease: "power2.out",
-          });
-
-          if (cardImage) {
-            gsap.to(cardImage, {
-              scale: 1.1,
-              duration: 0.5,
-              ease: "power1.out",
-            });
-          }
-
-          if (cardTitle) {
-            gsap.to(cardTitle, {
-              color: "#a3e635",
-              duration: 0.3,
-            });
-          }
-
-          if (cardTags) {
-            gsap.to(cardTags.children, {
-              scale: 1.05,
-              stagger: 0.05,
-              duration: 0.2,
-            });
-          }
-
-          if (cardButtons) {
-            gsap.to(cardButtons.children, {
-              y: -5,
-              scale: 1.05,
-              stagger: 0.1,
-              duration: 0.3,
-              ease: "back.out",
-            });
-          }
-        });
-
-        cardElement.addEventListener("mouseleave", () => {
-          gsap.to(cardElement, {
-            y: 0,
-            scale: 1,
-            boxShadow: "0 10px 15px rgba(0,0,0,0.1)",
-            duration: 0.5,
-            ease: "power2.out",
-          });
-
-          if (cardImage) {
-            gsap.to(cardImage, {
-              scale: 1,
-              duration: 0.5,
-              ease: "power1.out",
-            });
-          }
-
-          if (cardTitle) {
-            gsap.to(cardTitle, {
-              color: "white",
-              duration: 0.3,
-            });
-          }
-
-          if (cardTags) {
-            gsap.to(cardTags.children, {
-              scale: 1,
-              stagger: 0,
-              duration: 0.2,
-            });
-          }
-
-          if (cardButtons) {
-            gsap.to(cardButtons.children, {
-              y: 0,
-              scale: 1,
-              stagger: 0,
-              duration: 0.3,
-              ease: "power1.out",
-            });
-          }
-        });
+    imageRef.current?.addEventListener("mouseenter", () => {
+      gsap.to(imageRef.current, {
+        scale: 1.05,
+        duration: 0.3,
+        ease: "power2.out",
       });
-    }
+    });
 
-    // Animate project filter buttons
-    const filterButtons = document.querySelectorAll(".filter-button");
-    if (filterButtons.length) {
-      gsap.fromTo(
-        filterButtons,
-        {
-          opacity: 0,
-          y: 30,
-          scale: 0.9,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: "back.out",
-          scrollTrigger: {
-            trigger: filterButtons[0],
-            start: "top 85%",
-          },
-        }
-      );
-    }
-
-    // Add hover animations for skill items
-    const skillItems = skillsRef.current?.querySelectorAll(".skill-item");
-    if (skillItems) {
-      skillItems.forEach((item) => {
-        const icon = item.querySelector(".skill-icon");
-        const text = item.querySelector(".skill-text");
-
-        item.addEventListener("mouseenter", () => {
-          gsap.to(icon, {
-            color: "#a3e635",
-            scale: 1.2,
-            duration: 0.3,
-            ease: "back.out",
-          });
-
-          gsap.to(text, {
-            x: 5,
-            color: "#ffffff",
-            duration: 0.3,
-          });
-        });
-
-        item.addEventListener("mouseleave", () => {
-          gsap.to(icon, {
-            color: "#a3e635",
-            scale: 1,
-            duration: 0.3,
-          });
-
-          gsap.to(text, {
-            x: 0,
-            color: "#e5e7eb",
-            duration: 0.3,
-          });
-        });
+    imageRef.current?.addEventListener("mouseleave", () => {
+      gsap.to(imageRef.current, {
+        scale: 1,
+        duration: 0.3,
+        ease: "power2.out",
       });
-    }
+    });
 
     return () => {
-      tl.kill();
       window.removeEventListener("mousemove", handleMouseMove);
-
-      // Clean up event listeners for cards
-      if (projectsListRef.current) {
-        Array.from(projectsListRef.current.children).forEach((card) => {
-          const cardElement = card as HTMLElement;
-          cardElement.removeEventListener("mouseenter", () => {});
-          cardElement.removeEventListener("mouseleave", () => {});
-        });
-      }
-
-      if (skillItems) {
-        skillItems.forEach((item) => {
-          item.removeEventListener("mouseenter", () => {});
-          item.removeEventListener("mouseleave", () => {});
-        });
-      }
     };
   }, []);
 
@@ -812,7 +390,7 @@ export default function HeroSection({
                   </span>
                 </h1>
 
-                <div ref={skillsRef} className="space-y-5">
+                <div className="space-y-5" ref={skillsRef}>
                   <div className="skill-item opacity-0 flex items-center transform hover:translate-x-2 transition-transform duration-300">
                     <span className="skill-icon text-lime-400 mr-3 text-xl">
                       =&gt;
@@ -842,11 +420,11 @@ export default function HeroSection({
                 <div ref={ctaRef} className="mt-12 space-y-6">
                   <div className="text-gray-300 mb-8 space-y-1">
                     <p className="text-lg md:text-xl">
-                      TECHNICAL PROJECT MANAGER WITH 5+ YEARS OF
+                      Technical Project Manager with 5+ years of experience
                     </p>
                     <div className="flex flex-col xs:flex-row items-start xs:items-center">
                       <p className="text-lg md:text-xl">
-                        EXPERIENCE HELPING CLIENTS
+                        Experience helping clients
                       </p>
                       <div className="xs:ml-2 mt-1 xs:mt-0 text-lg md:text-xl text-lime-400 font-bold min-w-[120px] block xs:inline-block">
                         {typingText}
@@ -854,7 +432,7 @@ export default function HeroSection({
                       </div>
                     </div>
                     <p className="text-lg md:text-xl">
-                      FROM CONCEPT TO DEPLOYMENT
+                      From concept to deployment
                     </p>
                   </div>
 
@@ -904,7 +482,7 @@ export default function HeroSection({
               ref={imageRef}
               className="order-1 lg:order-2 flex items-center justify-center"
             >
-              <div className="relative w-full max-w-md">
+              <div ref={imageAnimRef} className="relative w-full max-w-md">
                 <div className="relative z-20 overflow-hidden rounded-2xl p-2 bg-gradient-to-br from-lime-400/20 to-blue-500/20">
                   <div className="aspect-[6/7] relative overflow-hidden rounded-xl">
                     <Image
@@ -920,87 +498,6 @@ export default function HeroSection({
                 <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-600/40 via-purple-500/40 to-blue-600/40 blur-3xl opacity-70 rounded-full"></div>
               </div>
             </div>
-          </div>
-
-          <div className="flex justify-center mt-10">
-            <button
-              ref={arrowRef}
-              onClick={() => onScrollToSection(projectsRef)}
-              className="text-white bg-black/50 p-4 rounded-full backdrop-blur-sm border border-gray-800 hover:bg-gray-800/80 transition-all duration-300 transform hover:scale-110"
-            >
-              <ArrowDown className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section ref={projectsRef} className="py-20 relative overflow-hidden">
-        {/* Add parallax background for projects section */}
-        <div className="absolute inset-0 -z-10">
-          {[
-            { width: 600, height: 600, top: 20, left: 25 },
-            { width: 500, height: 500, top: 50, left: 75 },
-            { width: 700, height: 700, top: 80, left: 40 },
-          ].map((item, i) => (
-            <div
-              key={`project-bg-${i}`}
-              className="absolute rounded-full opacity-20"
-              style={{
-                width: `${item.width}px`,
-                height: `${item.height}px`,
-                background: `radial-gradient(circle, rgba(163,230,53,0.2) 0%, rgba(0,0,0,0) 70%)`,
-                top: `${item.top}%`,
-                left: `${item.left}%`,
-                filter: "blur(100px)",
-                transform: "translate(-50%, -50%)",
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="mb-12 text-center">
-            <h2
-              ref={headingRef}
-              className="text-5xl font-bold mb-4 inline-block pb-2 text-white"
-            >
-              FEATURED PROJECTS
-            </h2>
-            <div className="w-40 h-1 bg-gradient-to-r from-lime-400 via-[#FFCC33] to-[#33CCFF] mx-auto mt-2 mb-8"></div>
-            <p
-              ref={descriptionRef}
-              className="max-w-3xl mx-auto text-white text-lg"
-            >
-              A selection of projects I've developed and led throughout my
-              career.
-            </p>
-          </div>
-
-          {/* Project filter */}
-          <ProjectFilter
-            categories={categories}
-            activeCategory={activeCategory}
-            onCategoryChange={handleCategoryChange}
-          />
-
-          {/* Projects grid */}
-          <div
-            ref={projectsListRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <InteractiveProjectCard
-                key={project.id}
-                title={project.title}
-                description={project.description}
-                image={project.image}
-                tags={project.tags}
-                demoLink={project.demoLink}
-                codeLink={project.codeLink}
-                color={project.color}
-                index={index}
-              />
-            ))}
           </div>
         </div>
       </section>

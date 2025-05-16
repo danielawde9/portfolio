@@ -126,23 +126,6 @@ export default function Navigation({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [aboutRef, projectsRef, experienceRef, contactRef]);
 
-  // Enhanced smooth scroll with GSAP
-  const smoothScrollTo = (ref: React.RefObject<HTMLElement>) => {
-    if (ref.current) {
-      const targetPosition =
-        ref.current.getBoundingClientRect().top + window.scrollY;
-
-      gsap.to(window, {
-        duration: 1,
-        scrollTo: {
-          y: targetPosition,
-          autoKill: false,
-        },
-        ease: "power3.inOut",
-      });
-    }
-  };
-
   const handleClick = (
     ref: React.RefObject<HTMLElement | null>,
     sectionId: string

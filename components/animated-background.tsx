@@ -42,7 +42,8 @@ const generateParticles = (count: number): ParticleProps[] => {
 export default function AnimatedBackground() {
   const backgroundRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<ParticleProps[]>(generateParticles(50));
+  const [particles, setParticles] = useState<ParticleProps[]>([]);
+  const particlesRef = useRef<ParticleProps[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const { theme } = useTheme();
@@ -105,7 +106,7 @@ export default function AnimatedBackground() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw particles
-      particlesRef.current.forEach((particle) => {
+      particles.forEach((particle) => {
         ctx.beginPath();
         ctx.arc(
           (particle.x * window.innerWidth) / 100,
@@ -148,10 +149,10 @@ export default function AnimatedBackground() {
         : "rgba(0, 0, 0, 0.05)";
       ctx.lineWidth = 0.5;
 
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        for (let j = i + 1; j < particlesRef.current.length; j++) {
-          const p1 = particlesRef.current[i];
-          const p2 = particlesRef.current[j];
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const p1 = particles[i];
+          const p2 = particles[j];
           const dx = ((p1.x - p2.x) * window.innerWidth) / 100;
           const dy = ((p1.y - p2.y) * window.innerHeight) / 100;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -183,7 +184,7 @@ export default function AnimatedBackground() {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [isHovering, mousePosition, isDark]);
+  }, [isHovering, mousePosition, isDark, particles]);
 
   // Background gradient animation
   useEffect(() => {
@@ -202,41 +203,50 @@ export default function AnimatedBackground() {
     };
   }, []);
 
+  // Add this useEffect after other hooks:
+  useEffect(() => {
+    const generated = generateParticles(50);
+    setParticles(generated);
+    particlesRef.current = generated;
+  }, []);
+
   return (
-    <div
-      ref={backgroundRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
-      style={{
-        backgroundSize: "200% 200%",
-        backgroundPosition: "0% 0%",
-      }}
-    >
-      {/* Base gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-95"></div>
-
-      {/* Grid overlay */}
+    <>
       <div
-        className="absolute inset-0 opacity-5"
+        ref={backgroundRef}
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+          backgroundSize: "200% 200%",
+          backgroundPosition: "0% 0%",
         }}
-      ></div>
+      >
+        {/* Base gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-95"></div>
 
-      {/* Canvas for particles */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-        style={{ width: "100%", height: "100%" }}
-      />
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        ></div>
 
-      {/* Main background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-gradient-radial from-lime-500/10 via-blue-500/5 to-transparent blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-radial from-purple-500/10 via-pink-500/5 to-transparent blur-3xl"></div>
+        {/* Canvas for particles */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full"
+          style={{ width: "100%", height: "100%" }}
+        />
 
-      {/* Grain overlay for texture */}
-      <div className="absolute inset-0 opacity-20 bg-[url('/noise.png')] bg-repeat"></div>
-    </div>
+        {/* Main background glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-gradient-radial from-lime-500/10 via-blue-500/5 to-transparent blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-radial from-purple-500/10 via-pink-500/5 to-transparent blur-3xl"></div>
+
+        {/* Grain overlay for texture */}
+        <div className="absolute inset-0 opacity-20 bg-[url('/noise.png')] bg-repeat"></div>
+      </div>
+    </>
   );
 }
