@@ -288,7 +288,7 @@ export default function Navigation({
           </Link>
 
           <a
-            href="mailto:hello@danielawd9.com"
+            href="mailto:hello@danielawde9.com"
             className="contact-btn ml-2 px-5 py-2 rounded-full bg-lime-400 text-black font-semibold shadow-md hover:bg-lime-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-lime-300 focus:ring-offset-2 focus:ring-offset-black flex items-center"
           >
             <Mail className="w-4 h-4 mr-2" />
@@ -407,7 +407,7 @@ export default function Navigation({
           </Link>
 
           <a
-            href="mailto:hello@danielawd9.com"
+            href="mailto:hello@danielawde9.com"
             className="mobile-nav-item py-3 px-4 mt-4 rounded-lg bg-lime-400 text-black font-semibold shadow hover:bg-lime-500 transition-colors focus:outline-none focus:ring-2 focus:ring-lime-300 flex items-center justify-center"
             onClick={() => setIsOpen(false)}
           >
