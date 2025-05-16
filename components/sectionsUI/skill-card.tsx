@@ -119,7 +119,7 @@ export default function SkillCard({
         {icon}
       </div>
       <div ref={contentRef}>
-        <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
+        <h3 className="text-xl text-white font-bold mb-3 ">{title}</h3>
         <p className="text-secondary dark:text-gray-400">{description}</p>
       </div>
     </div>

@@ -80,8 +80,8 @@ export default function HeroSection({
       tags: ["Unity", "C#", "Firebase", "AR Foundation"],
       categories: ["Mobile", "AR"],
       demoLink:
-        "https://play.google.com/store/apps/details?id=com.danielawde9.mingo",
-      codeLink: "https://github.com/danielawde9",
+        "https://play.google.com/store/apps/details?id=com.daniel.project.mingo&hl=en",
+      codeLink: "https://github.com/danielawde9/MingoARClassroom",
       color: "#FF3366",
     },
     {
@@ -403,7 +403,7 @@ export default function HeroSection({
         {
           opacity: 0,
           y: 100,
-          rotationY: 15,
+          rotationY: 50,
           scale: 0.8,
         },
         {
@@ -419,7 +419,6 @@ export default function HeroSection({
 
       // Add continuous floating animation
       gsap.to(imageRef.current, {
-        y: "+=15",
         rotationZ: "-=2",
         duration: 2.5,
         repeat: -1,
@@ -845,11 +844,11 @@ export default function HeroSection({
                     <p className="text-lg md:text-xl">
                       TECHNICAL PROJECT MANAGER WITH 5+ YEARS OF
                     </p>
-                    <div className="flex items-center">
+                    <div className="flex flex-col xs:flex-row items-start xs:items-center">
                       <p className="text-lg md:text-xl">
                         EXPERIENCE HELPING CLIENTS
                       </p>
-                      <div className="ml-2 text-lg md:text-xl text-lime-400 font-bold min-w-[120px] inline-block">
+                      <div className="xs:ml-2 mt-1 xs:mt-0 text-lg md:text-xl text-lime-400 font-bold min-w-[120px] block xs:inline-block">
                         {typingText}
                         <span className="animate-pulse">|</span>
                       </div>
