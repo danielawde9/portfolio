@@ -46,17 +46,12 @@ export default function HeroSection({
   aboutRef,
   projectsRef,
 }: HeroSectionProps) {
-  const [activeCategory, setActiveCategory] = useState("All");
   const titleRef = useRef<HTMLHeadingElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const socialsRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const imageAnimRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const arrowRef = useRef<HTMLButtonElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
-  const projectsListRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const parallaxLayersRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
@@ -64,7 +59,7 @@ export default function HeroSection({
   const cursorRef = useRef<HTMLDivElement>(null);
   const [typingText, setTypingText] = useState("");
   const [typeIndex, setTypeIndex] = useState(0);
-  const typeTexts = ["BUILD", "CREATE", "DEVELOP", "DESIGN", "DEPLOY"];
+  const typeTexts = ["Build", "Create", "Develop", "Design", "Deploy"];
   const magnetButtonRef = useRef<HTMLDivElement>(null);
 
   // Project data
@@ -423,13 +418,13 @@ export default function HeroSection({
                       Technical Project Manager with 5+ years of experience
                     </p>
                     <div className="flex flex-col xs:flex-row items-start xs:items-center">
-                      <p className="text-lg md:text-xl">
+                      <p className="text-lg md:text-xl flex items-center gap-2">
                         Experience helping clients
+                        <span className="xs:ml-2 mt-1 xs:mt-0 text-lg md:text-xl text-lime-400 font-bold block xs:inline-block">
+                          {typingText}
+                          <span className="animate-pulse">|</span>
+                        </span>
                       </p>
-                      <div className="xs:ml-2 mt-1 xs:mt-0 text-lg md:text-xl text-lime-400 font-bold min-w-[120px] block xs:inline-block">
-                        {typingText}
-                        <span className="animate-pulse">|</span>
-                      </div>
                     </div>
                     <p className="text-lg md:text-xl">
                       From concept to deployment
