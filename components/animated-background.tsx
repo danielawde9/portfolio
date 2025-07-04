@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { gsap } from "gsap";
 import { useTheme } from "next-themes";
 
@@ -39,7 +39,7 @@ const generateParticles = (count: number): ParticleProps[] => {
   }));
 };
 
-export default function AnimatedBackground() {
+const AnimatedBackground = memo(function AnimatedBackground() {
   const backgroundRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [particles, setParticles] = useState<ParticleProps[]>([]);
@@ -249,4 +249,6 @@ export default function AnimatedBackground() {
       </div>
     </>
   );
-}
+});
+
+export default AnimatedBackground;

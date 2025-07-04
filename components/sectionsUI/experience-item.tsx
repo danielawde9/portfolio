@@ -21,7 +21,7 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({
 }) => {
   return (
     <article
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl p-8 border border-gray-700"
+      className=" "
       itemScope
       itemType="https://schema.org/JobPosting"
       onClick={() =>

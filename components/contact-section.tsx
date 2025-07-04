@@ -159,6 +159,7 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
       <div className="container mx-auto px-4 flex flex-col items-center z-10 relative">
         <div className="mb-12 text-center">
           <h2
+            ref={headingRef}
             className="text-4xl md:text-5xl font-extrabold mb-4 inline-block border-b-4 border-lime-400 pb-2 text-white tracking-tight"
             style={{ fontFamily: "monospace" }}
           >
@@ -191,7 +192,7 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
               <a
                 ref={addToLinkRefs}
                 href="mailto:hello@danielawde9.com"
-                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-all inline-block"
+                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-words inline-block"
               >
                 hello@danielawde9.com
               </a>
@@ -298,9 +299,9 @@ export default function ContactSection({ forwardedRef }: ContactSectionProps) {
                 href="https://linkedin.com/in/danielawde9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-all inline-block"
+                className="text-gray-300 hover:text-lime-400 transition-colors text-lg font-mono break-words inline-block"
               >
-                linkedin.com/in/danielawde9
+                in/danielawde9
               </a>
             </div>
           </div>

@@ -6,46 +6,24 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Github,
-  Linkedin,
   Mail,
-  ArrowDown,
-  Code,
   ChevronRight,
 } from "lucide-react";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { typeTexts } from "./data/content";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-interface HeroSectionProps {
-  onScrollToSection: (ref: React.RefObject<HTMLElement | null>) => void;
-  aboutRef: React.RefObject<HTMLElement | null>;
-  projectsRef: React.RefObject<HTMLElement | null>;
-}
+interface HeroSectionProps {}
 
-// Project interface
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  tags: string[];
-  categories: string[];
-  demoLink: string;
-  codeLink: string;
-  color: string;
-}
 
-export default function HeroSection({
-  onScrollToSection,
-  aboutRef,
-  projectsRef,
-}: HeroSectionProps) {
+export default function HeroSection({}: HeroSectionProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const socialsRef = useRef<HTMLDivElement>(null);
@@ -59,62 +37,8 @@ export default function HeroSection({
   const cursorRef = useRef<HTMLDivElement>(null);
   const [typingText, setTypingText] = useState("");
   const [typeIndex, setTypeIndex] = useState(0);
-  const typeTexts = ["Build", "Create", "Develop", "Design", "Deploy"];
   const magnetButtonRef = useRef<HTMLDivElement>(null);
 
-  // Project data
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: "Mingo App",
-      description:
-        "An open-source AR-based educational app inspired by Kahoot, aiming to gamify learning experiences for students and teachers. Published on Google Play Store.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["Unity", "C#", "Firebase", "AR Foundation"],
-      categories: ["Mobile", "AR"],
-      demoLink:
-        "https://play.google.com/store/apps/details?id=com.daniel.project.mingo&hl=en",
-      codeLink: "https://github.com/danielawde9/MingoARClassroom",
-      color: "#FF3366",
-    },
-    {
-      id: 2,
-      title: "Echoes Of History",
-      description:
-        "Augmented Reality (AR) application to showcase the Kfarmatta Silk Mill in Lebanon, featuring a 3D scanned reconstruction of the site's historical and current states.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["Unity", "C#", "Firebase", "AR Foundation"],
-      categories: ["Mobile", "AR"],
-      demoLink:
-        "https://play.google.com/store/apps/details?id=com.danielawde9.echoesofhistory",
-      codeLink: "#",
-      color: "#FF9933",
-    },
-    {
-      id: 3,
-      title: "SEO Projects for MENA Clients",
-      description:
-        "Undertook SEO projects for international clients targeting the MENA region, focusing on on-page and off-page SEO using content, trending topics, and localization.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["SEO", "Content Strategy", "WordPress", "Google Analytics"],
-      categories: ["Web"],
-      demoLink: "#",
-      codeLink: "#",
-      color: "#FFCC33",
-    },
-    {
-      id: 4,
-      title: "Portfolio Website",
-      description:
-        "Modern, responsive portfolio website built with Next.js and Tailwind CSS, featuring smooth animations and interactive elements.",
-      image: "/placeholder.svg?height=400&width=600",
-      tags: ["Next.js", "Tailwind CSS", "GSAP", "TypeScript"],
-      categories: ["Web"],
-      demoLink: "https://danielawde9.com",
-      codeLink: "https://github.com/danielawde9/portfolio",
-      color: "#9966FF",
-    },
-  ];
 
   useEffect(() => {
     // Text typing animation
@@ -420,7 +344,7 @@ export default function HeroSection({
                     <div className="flex flex-col xs:flex-row items-start xs:items-center">
                       <p className="text-lg md:text-xl flex items-center gap-2">
                         Experience helping clients
-                        <span className="xs:ml-2 mt-1 xs:mt-0 text-lg md:text-xl text-lime-400 font-bold block xs:inline-block">
+                        <span className="xs:ml-2 mt-0 xs:mt-0 text-lg md:text-xl text-lime-400 font-bold block xs:inline-block">
                           {typingText}
                           <span className="animate-pulse">|</span>
                         </span>
@@ -451,7 +375,7 @@ export default function HeroSection({
                         rel="noopener noreferrer"
                         className="transform hover:scale-110 transition-transform duration-300"
                       >
-                        <Github className="w-7 h-7 text-gray-300 hover:text-lime-400 transition-colors" />
+                        <IconBrandGithub className="w-7 h-7 text-gray-300 hover:text-lime-400 transition-colors" />
                       </Link>
                       <Link
                         href="https://linkedin.com/in/danielawde9"
@@ -459,7 +383,7 @@ export default function HeroSection({
                         rel="noopener noreferrer"
                         className="transform hover:scale-110 transition-transform duration-300"
                       >
-                        <Linkedin className="w-7 h-7 text-gray-300 hover:text-lime-400 transition-colors" />
+                        <IconBrandLinkedin className="w-7 h-7 text-gray-300 hover:text-lime-400 transition-colors" />
                       </Link>
                       <Link
                         href="mailto:hello@danielawde9.com"

@@ -2,81 +2,23 @@
 
 import type React from "react";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SkillCard from "./sectionsUI/skill-card";
-import SkillTag from "./sectionsUI/skill-tag";
+import { skillCategories, skillLevels } from "./data/skills";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Skill categories with colors
-const skillCategories = [
-  {
-    name: "Development",
-    color: "#FF3366",
-    skills: [
-      "JavaScript",
-      "TypeScript",
-      "React",
-      "Node.js",
-      "Next.js",
-      "HTML/CSS",
-    ],
-  },
-  {
-    name: "AR/Mobile",
-    color: "#FF9933",
-    skills: ["Unity", "C#", "AR Foundation", "Kotlin", "Firebase"],
-  },
-  {
-    name: "Backend",
-    color: "#FFCC33",
-    skills: ["MongoDB", "MySQL", "Express", "REST APIs", "Firebase"],
-  },
-  {
-    name: "Management",
-    color: "#33CCFF",
-    skills: [
-      "Agile",
-      "Team Leadership",
-      "Project Management",
-      "Stakeholder Management",
-    ],
-  },
-];
-
-// Hardcoded skill levels for deterministic SSR/CSR rendering
-const skillLevels: Record<string, number> = {
-  JavaScript: 97,
-  TypeScript: 92,
-  React: 95,
-  "Node.js": 90,
-  "Next.js": 90,
-  "HTML/CSS": 98,
-  Unity: 85,
-  "C#": 88,
-  "AR Foundation": 80,
-  Kotlin: 75,
-  Firebase: 85,
-  MongoDB: 80,
-  MySQL: 78,
-  Express: 82,
-  "REST APIs": 87,
-  Agile: 95,
-  "Team Leadership": 93,
-  "Project Management": 94,
-  "Stakeholder Management": 92,
-};
 
 interface AboutSectionProps {
   forwardedRef: React.RefObject<HTMLElement | null>;
 }
 
-export default function AboutSection({ forwardedRef }: AboutSectionProps) {
+const AboutSection = memo(function AboutSection({ forwardedRef }: AboutSectionProps) {
   const [activeCategory, setActiveCategory] = useState(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -497,7 +439,7 @@ export default function AboutSection({ forwardedRef }: AboutSectionProps) {
 
           {/* Skills tags */}
           <div ref={skillsRef} className="flex flex-wrap justify-center gap-3">
-            {skillCategories[activeCategory].skills.map((skill, index) => {
+            {skillCategories[activeCategory].skills.map((skill) => {
               const level = skillLevels[skill] ?? 80; // Use hardcoded level or fallback
               return (
                 <div key={skill} className="skill-tag w-full sm:w-auto">
@@ -540,4 +482,6 @@ export default function AboutSection({ forwardedRef }: AboutSectionProps) {
       </div>
     </section>
   );
-}
+});
+
+export default AboutSection;

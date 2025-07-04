@@ -2,11 +2,10 @@
 
 import type React from "react";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { useTheme } from "next-themes";
 import { Menu, X, ChevronRight, Download, Mail } from "lucide-react";
 
 // Register ScrollToPlugin
@@ -22,7 +21,7 @@ interface NavigationProps {
   contactRef: React.RefObject<HTMLElement | null>;
 }
 
-export default function Navigation({
+const Navigation = memo(function Navigation({
   onScrollToSection,
   aboutRef,
   projectsRef,
@@ -33,14 +32,11 @@ export default function Navigation({
   const logoRef = useRef<HTMLAnchorElement>(null);
   const navItemsRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
-    setMounted(true);
 
     // Animate navigation on load
     if (navRef.current) {
@@ -104,7 +100,6 @@ export default function Navigation({
 
       // Determine active section
       const sections = [
-        { ref: projectsRef, id: "projects" },
         { ref: aboutRef, id: "about" },
         { ref: experienceRef, id: "experience" },
         { ref: contactRef, id: "contact" },
@@ -222,20 +217,6 @@ export default function Navigation({
           className="hidden md:flex space-x-8 md:items-center"
         >
           <button
-            onClick={() => handleClick(projectsRef, "projects")}
-            className={`nav-item relative px-2 py-1 text-gray-300 hover:text-white transition-colors ${
-              activeSection === "projects" ? "text-white" : ""
-            }`}
-          >
-            Projects
-            <span
-              className={`absolute bottom-0 left-0 w-full h-0.5 bg-lime-400 transform scale-x-0 transition-transform duration-300 ${
-                activeSection === "projects" ? "scale-x-100" : ""
-              }`}
-            ></span>
-          </button>
-
-          <button
             onClick={() => handleClick(aboutRef, "about")}
             className={`nav-item relative px-2 py-1 text-gray-300 hover:text-white transition-colors ${
               activeSection === "about" ? "text-white" : ""
@@ -310,22 +291,7 @@ export default function Navigation({
         style={{ height: 0, opacity: 0 }}
       >
         <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-          <button
-            onClick={() => handleClick(projectsRef, "projects")}
-            className={`mobile-nav-item flex justify-between items-center text-white py-3 px-4 text-left rounded-lg transition-colors ${
-              activeSection === "projects"
-                ? "bg-gray-800/50 text-lime-400"
-                : "hover:bg-gray-800/30"
-            }`}
-          >
-            <span>Projects</span>
-            <ChevronRight
-              size={16}
-              className={
-                activeSection === "projects" ? "text-lime-400" : "text-gray-500"
-              }
-            />
-          </button>
+
 
           <button
             onClick={() => handleClick(aboutRef, "about")}
@@ -401,4 +367,6 @@ export default function Navigation({
       </div>
     </header>
   );
-}
+});
+
+export default Navigation;

@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { gsap } from "gsap";
 
 export default function Footer() {
@@ -74,7 +75,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="social-icon text-gray-400 hover:text-lime-400 transition-all transform hover:scale-110 duration-300"
             >
-              <Github className="w-5 h-5" />
+              <IconBrandGithub className="w-5 h-5" />
             </Link>
             <Link
               href="https://linkedin.com/in/danielawde9"
@@ -82,7 +83,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="social-icon text-gray-400 hover:text-lime-400 transition-all transform hover:scale-110 duration-300"
             >
-              <Linkedin className="w-5 h-5" />
+              <IconBrandLinkedin className="w-5 h-5" />
             </Link>
             <Link
               href="mailto:hello@danielawde9.com"

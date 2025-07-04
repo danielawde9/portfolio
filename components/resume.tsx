@@ -2,13 +2,14 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Github, Linkedin, Mail, Globe, ChevronRight } from "lucide-react";
+import { Mail, Globe, ChevronRight } from "lucide-react";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, ReactNode, useEffect, useState } from "react";
+import { useRef, ReactNode, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { coreCompetencies, techStacks } from "./data/content";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -273,7 +274,6 @@ const TiltCard = ({ children }: { children: ReactNode }) => {
 export default function Resume() {
   const headerRef = useRef<HTMLElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
-  const nameChars = Array.from("DANIEL AWDE");
   const subtitleRef = useRef<HTMLHeadingElement>(null);
   const socialIconsRef = useRef<HTMLDivElement>(null);
 
@@ -393,7 +393,7 @@ export default function Resume() {
             ref={subtitleRef}
             className="font-space-grotesk text-xl md:text-2xl text-foreground/80 mb-6"
           >
-            Technical Project Manager & Software Engineer
+            Software Engineer & Project Manager
           </h2>
 
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
@@ -425,7 +425,7 @@ export default function Resume() {
                 rel="noopener noreferrer"
                 className="social-icon p-3 rounded-full bg-foreground/5 hover:bg-primary/20 text-foreground hover:text-primary transition-all duration-300 hover:scale-110"
               >
-                <Github className="h-5 w-5" />
+                <IconBrandGithub className="h-5 w-5" />
                 <span className="sr-only">GitHub</span>
               </Link>
               <Link
@@ -434,7 +434,7 @@ export default function Resume() {
                 rel="noopener noreferrer"
                 className="social-icon p-3 rounded-full bg-foreground/5 hover:bg-primary/20 text-foreground hover:text-primary transition-all duration-300 hover:scale-110"
               >
-                <Linkedin className="h-5 w-5" />
+                <IconBrandLinkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
               <Link
@@ -462,15 +462,15 @@ export default function Resume() {
       <Section delay={0.2}>
         <SectionTitle>PROFESSIONAL SUMMARY</SectionTitle>
         <p className="text-foreground/80 text-lg leading-relaxed">
-          Versatile Technical Project Manager and Software Engineer with proven
-          expertise in web and mobile application development, including
-          augmented reality technologies. Adept at bridging technical solutions
-          with strategic business objectives to enhance user experiences and
-          drive organizational success. Demonstrated ability to lead
-          cross-functional teams, manage stakeholder relationships, and deliver
-          complex projects on time and within budget. Committed to leveraging
-          technical expertise and leadership skills to foster innovation and
-          achieve impactful results.
+          Skilled Software Engineer and Systems Architect with expertise in
+          building AI-powered automation systems and scalable web
+          infrastructure. Proficient in transforming complex workflows into
+          structured, automated processes while managing cross-functional teams.
+          Experienced in transitioning service-based operations to productized
+          systems through strategic implementation of modern technologies and
+          operational frameworks. Focused on driving innovation through
+          systematic approaches to scaling content production and internal
+          operations.
         </p>
       </Section>
 
@@ -478,17 +478,7 @@ export default function Resume() {
       <Section delay={0.3}>
         <SectionTitle>CORE COMPETENCIES</SectionTitle>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
-          {[
-            "Technical Leadership",
-            "Project Management",
-            "Team Coordination",
-            "Stakeholder Management",
-            "Software Development",
-            "AR/VR Technologies",
-            "Digital Marketing",
-            "SEO Optimization",
-            "Client Relationship",
-          ].map((skill: string, index: number) => (
+          {coreCompetencies.map((skill: string, index: number) => (
             <div
               key={index}
               className="skill-item bg-foreground/5 rounded-lg p-3 flex items-center gap-3 hover:bg-primary/10 transition-all duration-300 transform hover:-translate-y-1"
@@ -505,15 +495,18 @@ export default function Resume() {
         <SectionTitle>PROFESSIONAL EXPERIENCE</SectionTitle>
 
         <ExperienceCard
-          title="Technical Project Manager"
-          company="Lelabo Digital"
+          title="Technical Project Manager & Systems Architect"
+          company="LelaboDigital"
           period="Jan 2024 – Present"
           duties={[
-            "Lead SEO projects for international clients targeting the MENA region, focusing on on-page and off-page optimization strategies.",
-            "Manage the development of complex game web applications, implementing SEO strategies to enhance visibility and user engagement.",
-            "Direct a cross-functional team of developers, designers, and QA specialists, fostering collaboration and driving innovation.",
-            "Serve as the primary point of contact for clients and stakeholders, effectively managing expectations and addressing concerns.",
-            "Implement project management methodologies to ensure timely delivery and high-quality outcomes.",
+            "Architected and implemented AI-powered automation systems that streamlined content production workflows, reducing manual effort by 90% while scaling output 10x",
+            "Built robust web infrastructure handling high-traffic volumes with 99% uptime using Next.js, Node.js serverless architecture, and Docker containerization",
+            "Designed internal operating systems and automation pipelines using Airtable-like workflows, Zapier integrations, and custom APIs to systematize project delivery",
+            "Created SOPs and documentation frameworks that transformed ad-hoc processes into repeatable, scalable systems for content creation and distribution",
+            "Developed AI-driven content optimization tools for international clients targeting the MENA region, integrating trending topic analysis and localization automation",
+            "Led transition from manual service delivery to automated systems by building reusable frameworks and establishing metrics-driven dashboards for performance tracking",
+            "Managed cross-functional teams of developers, designers, and QA specialists while implementing agile methodologies and automated task management systems",
+            "Served as primary stakeholder liaison, translating founder vision into actionable technical roadmaps with measurable KPIs",
           ]}
         />
 
@@ -522,22 +515,33 @@ export default function Resume() {
           company="Park Innovation & AUF"
           period="Nov 2022 – Jan 2024"
           duties={[
-            "Designed and delivered a comprehensive 900-hour training program in full stack development for 20 non-CS background students.",
-            "Conducted a 350-hour training program for CS graduate students, covering various programming languages and technologies.",
-            "Developed curriculum focusing on MERN stack (MongoDB, Express.js, React, Node.js) and modern web development practices.",
-            "Mentored students through complex technical challenges, resulting in high completion rates and job placements.",
+            "Designed and delivered a comprehensive 900-hour training program in full stack development for 20 non-CS background students",
+            "Conducted a 350-hour training program for CS graduate students, covering various programming languages and technologies",
+            "Developed curriculum focusing on MERN stack (MongoDB, Express.js, React, Node.js) and modern web development practices",
+            "Mentored students through complex technical challenges, resulting in high completion rates and job placements",
           ]}
         />
 
         <ExperienceCard
-          title="Technical Consultant & Front-End Developer"
-          company="Mercy Corps & Saffron Souk"
-          period="May 2021 – Oct 2023"
+          title="Technical Consultant"
+          company="Mercy Corps"
+          period="Feb 2023 – Oct 2023"
           duties={[
-            "Provided technical leadership and consultancy services, guiding the launch of new websites and expanding online visibility.",
-            "Developed responsive front-end interfaces for e-commerce platforms, enhancing user experience and conversion rates.",
-            "Implemented digital marketing strategies, including SEO optimization, resulting in increased organic traffic.",
-            "Led training sessions in digital marketing and web development, mentoring over 60 students.",
+            "Provided technical consultancy services to the organization, aiding in the launch of their new website and expansion of online visibility",
+            "Advised on technical challenges, leveraging software development skills to propose effective solutions",
+            "Conducted training sessions in digital marketing and web development, mentoring over 60 students",
+            "Implemented digital marketing strategies including SEO optimization, resulting in increased organic traffic",
+          ]}
+        />
+
+        <ExperienceCard
+          title="Front-End Developer"
+          company="SaffronSouk"
+          period="Jun 2021 – Feb 2023"
+          duties={[
+            "Developed responsive front-end interfaces for an e-commerce platform",
+            "Implemented digital marketing strategies including SEO to increase user engagement and conversion rates",
+            "Enhanced online visibility through technical optimizations and marketing initiatives",
           ]}
         />
 
@@ -546,10 +550,31 @@ export default function Resume() {
           company="Upwork"
           period="May 2020 – Nov 2023"
           duties={[
-            "Managed multiple client projects simultaneously, maintaining high standards of quality and client satisfaction.",
-            "Developed websites utilizing web development best practices and SEO optimization techniques.",
-            "Achieved top-rated status for consistently delivering high-quality work and maintaining excellent client relationships.",
-            "Worked with various technologies including JavaScript, React, Unity, C#, and Firebase.",
+            "Developed websites for clients utilizing web development and SEO best practices to enhance user experience and drive organic traffic",
+            "Recognized as a top-rated freelancer on Upwork for consistently delivering high-quality work and maintaining excellent client satisfaction",
+            "Managed multiple client projects simultaneously, maintaining high standards of quality",
+            "Worked with various technologies including JavaScript, React, Unity, C#, and Firebase",
+          ]}
+        />
+
+        <ExperienceCard
+          title="Coding Bootcamp Program Coordinator"
+          company="Park Innovation"
+          period="Sep 2019 – Jun 2021"
+          duties={[
+            "Supervised over 5 coding boot camps, managing over 100 students, and coordinating training sessions on web development, software engineering, and computer programming languages.",
+            "Technologies used: Program Coordination, Project Planning, Project Management.",
+          ]}
+        />
+
+        <ExperienceCard
+          title="Network Engineer"
+          company="CNS (Converged Network Solutions)"
+          period="Jul 2018 – Aug 2019"
+          duties={[
+            "Regularly configured and troubleshoot complex network solutions, including Cisco firewalls, routers, and switches.",
+            "Troubleshoot, diagnosed and resolved hardware, software, and other network and system problems.",
+            "Technologies used: CCNA R&S, CCNA Security, CCNP, Network Security.",
           ]}
         />
       </Section>
@@ -570,14 +595,14 @@ export default function Resume() {
                     Mingo App
                   </h3>
                   <p className="text-sm text-primary/80 mb-3">
-                    Unity Developer | 2018-Present
+                    Unity Developer | 2018–Present
                   </p>
                   <p className="text-foreground/70 text-sm mb-4">
                     Open-source AR-based educational app inspired by Kahoot,
                     gamifying learning experiences for students and teachers.
                   </p>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {["Unity", "C#", "Firebase", "AR Foundation"].map(
+                    {techStacks.arMobile.map(
                       (tech: string, index: number) => (
                         <Badge
                           key={index}
@@ -604,15 +629,24 @@ export default function Resume() {
                     Echoes Of History
                   </h3>
                   <p className="text-sm text-primary/80 mb-3">
-                    Unity Developer | Aug 2023-Oct 2023
+                    Unity Developer | Aug 2023–Oct 2023
                   </p>
                   <p className="text-foreground/70 text-sm mb-4">
                     AR application showcasing the Kfarmatta Silk Mill in
                     Lebanon, featuring 3D scanned reconstruction of historical
                     and current states.
                   </p>
+                  {/* Add project link with pressable style */}
+                  <a
+                    href="https://echoesofhistory.lelabodigital.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 text-primary underline hover:text-primary/80 text-sm active:scale-95 transition-transform"
+                  >
+                    echoesofhistory.lelabodigital.com
+                  </a>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {["Unity", "C#", "Firebase", "AR Foundation"].map(
+                    {techStacks.arMobile.map(
                       (tech: string, index: number) => (
                         <Badge
                           key={index}
@@ -634,59 +668,34 @@ export default function Resume() {
       <Section delay={0.6}>
         <SectionTitle>TECHNICAL SKILLS</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-foreground/5 rounded-xl p-6 hover:bg-primary/5 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-lg">
+        <div className="space-y-6">
+          <div>
             <h3 className="font-space-grotesk text-lg font-semibold mb-4 text-foreground">
-              Programming & Development
+              Technical Proficiencies
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "JavaScript",
-                "Kotlin",
-                "C#",
-                "ReactJS",
-                "NodeJS",
-                "Unity",
-                "AR Foundation",
-                "WordPress",
-                "Shopify",
-              ].map((skill: string, index: number) => (
-                <div
-                  key={index}
-                  className="skill-badge transform hover:scale-110 transition-all duration-300"
-                >
-                  <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 px-3 py-1 text-sm">
-                    {skill}
-                  </Badge>
-                </div>
-              ))}
-            </div>
+            <p className="text-foreground/80 leading-relaxed">
+              Proficient in JavaScript, Kotlin, C#, and Python with expertise in
+              ReactJS, Next.js, NodeJS, and AR Foundation. Experienced in
+              Docker, serverless architecture, and CI/CD pipelines. Skilled in
+              automation using Zapier, n8n, and API integrations. Comprehensive
+              knowledge of WordPress, Shopify, Unity, and database systems
+              (Firebase, MySQL, MongoDB) with hands-on AI/ML integration
+              experience.
+            </p>
           </div>
 
-          <div className="bg-foreground/5 rounded-xl p-6 hover:bg-primary/5 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-lg">
+          <div>
             <h3 className="font-space-grotesk text-lg font-semibold mb-4 text-foreground">
-              Project Management & Marketing
+              Project Management & Operations
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Agile",
-                "Team Leadership",
-                "Stakeholder Engagement",
-                "SEO",
-                "SEM",
-                "PPC",
-                "Google Analytics",
-              ].map((skill: string, index: number) => (
-                <div
-                  key={index}
-                  className="skill-badge transform hover:scale-110 transition-all duration-300"
-                >
-                  <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 px-3 py-1 text-sm">
-                    {skill}
-                  </Badge>
-                </div>
-              ))}
-            </div>
+            <p className="text-foreground/80 leading-relaxed">
+              Strong systems architect with expertise in SOP development,
+              process documentation, and workflow design. Proven leadership in
+              agile project management and stakeholder engagement. Skilled in
+              operational excellence through KPI tracking, dashboard creation,
+              and bottleneck analysis. Proficient in digital marketing including
+              SEO, SEM, PPC, and Google Analytics.
+            </p>
           </div>
         </div>
       </Section>
@@ -724,6 +733,15 @@ export default function Resume() {
               design and analysis of a compact dual-band lowpass bandpass
               filter.
             </p>
+            {/* Add IEEE link with pressable style */}
+            <a
+              href="https://ieeexplore.ieee.org/document/9102490"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-2 text-primary underline hover:text-primary/80 text-sm active:scale-95 transition-transform"
+            >
+              View on IEEE Xplore
+            </a>
           </div>
         </div>
       </Section>

@@ -17,7 +17,6 @@ export const metadata = {
   title: "Daniel Awde - Technical Project Manager & Software Engineer",
   description:
     "Portfolio and resume of Daniel Awde, showcasing experience as a Technical Project Manager and Software Engineer",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({
